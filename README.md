@@ -144,6 +144,10 @@ nixconf-wsl-minimal/
     └── nvim/              # LazyVim Lua config
 ```
 
+## Documentation
+
+- [docs/secrets.md](docs/secrets.md) — managing API tokens and credentials safely.
+
 ## Notes
 
 - **Git**: not managed by Nix here. Use Ubuntu's `apt install git` or add your own module.

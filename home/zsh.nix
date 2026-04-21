@@ -72,6 +72,10 @@
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
 
       export PATH="$HOME/.local/bin:$PATH"
+
+      # Load local secrets (not tracked in git, not in the Nix store).
+      # See docs/secrets.md for setup.
+      [ -f "$HOME/.config/secrets.env" ] && source "$HOME/.config/secrets.env"
     '';
   };
 }

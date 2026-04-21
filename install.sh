@@ -61,7 +61,18 @@ if [[ "$(getent passwd "$CURRENT_USER" | cut -d: -f7)" != *zsh ]]; then
     info "Set zsh as your default shell? (chsh -s $ZSH_PATH)  [y/N]"
     read -r reply
     if [[ "$reply" =~ ^[Yy]$ ]]; then
-      chsh -s "$ZSH_PATH" || warn "chsh failed — run manually: chsh -s $ZSH_PATH"
+      # Register zsh in /etc/shells if missing (chsh refuses otherwise)
+      if ! grep -qx "$ZSH_PATH" /etc/shells 2>/dev/null; then
+        echo "$ZSH_PATH" | sudo tee -a /etc/shells >/dev/null || true
+      fi
+      # Try unprivileged chsh first (needs the user's login password via PAM).
+      # Fall back to `sudo chsh` if PAM auth fails or no login password is set.
+      if ! chsh -s "$ZSH_PATH" 2>/dev/null; then
+        warn "chsh failed (no login password?) — retrying with sudo"
+        if ! sudo chsh -s "$ZSH_PATH" "$CURRENT_USER"; then
+          warn "sudo chsh failed too — run manually or add 'exec zsh' to ~/.bashrc"
+        fi
+      fi
     fi
   fi
 fi

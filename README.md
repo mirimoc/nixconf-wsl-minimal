@@ -59,7 +59,8 @@ On the first zsh launch, `p10k configure` will run — pick your preferred promp
 ## Customize
 
 - **Username**: `flake.nix` → `username = "..."`
-- **Packages**: extend `home.packages` / `extraPackages` in `home/development.nix` or `home/nvim.nix`
+- **Project-specific packages** (poetry, nodejs, terraform, …): add to `home/packages.nix`
+- **Baseline packages**: `home/development.nix` (CLI tools) or `home/nvim.nix` (neovim runtime deps)
 - **zsh aliases**: `home/zsh.nix` → `shellAliases`
 - **Your own modules**: create a new file under `home/`, import it in `home/wsl.nix`
 
@@ -137,7 +138,8 @@ nixconf-wsl-minimal/
 │   ├── zsh.nix            # zsh + p10k + plugins + aliases
 │   ├── tmux.nix           # tmux + Catppuccin + resurrect
 │   ├── nvim.nix           # neovim + LSPs + formatters
-│   └── development.nix    # direnv + fd/bat/jq
+│   ├── development.nix    # direnv + fd/bat/jq
+│   └── packages.nix       # your project-specific packages (poetry, nodejs, ...)
 └── dotfiles/
     └── nvim/              # LazyVim Lua config
 ```

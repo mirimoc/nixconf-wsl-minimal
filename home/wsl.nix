@@ -7,6 +7,7 @@
     ./tmux.nix
     ./nvim.nix
     ./development.nix
+    ./packages.nix
   ];
 
   home.username = username;

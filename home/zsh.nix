@@ -50,8 +50,8 @@
       lg = "lazygit";
       sv = "sudo -E nvim";
       ll = "ls -la";
-      nf = "cd ~/dotfiles";
-      sw = "home-manager switch --flake ~/dotfiles#wsl";
+      nf = "cd ~/projects/nixconf/";
+      sw = "home-manager switch --flake .#wsl";
       gb = "nix-collect-garbage -d";
     };
 

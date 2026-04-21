@@ -5,6 +5,7 @@
     fd
     bat
     jq
+    lazygit
   ];
 
   # direnv: auto-activate dev shells on cd

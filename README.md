@@ -23,8 +23,21 @@ No desktop, no GUI packages, no secrets. Intentionally lean.
 
 ## Installation
 
+### Scripted (recommended)
+
 ```bash
-# Clone (no GitHub auth needed, repo is public)
+git clone https://github.com/mirimoc/nixconf-wsl-minimal ~/dotfiles
+cd ~/dotfiles
+./install.sh
+```
+
+`install.sh` handles: enabling flakes, starting `nix-daemon` on WSL without systemd,
+patching the `username` in `flake.nix` to match `$USER`, running the activation,
+and offering `chsh -s $(which zsh)`.
+
+### Manual
+
+```bash
 git clone https://github.com/mirimoc/nixconf-wsl-minimal ~/dotfiles
 cd ~/dotfiles
 

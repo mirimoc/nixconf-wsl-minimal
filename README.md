@@ -14,10 +14,12 @@ No desktop, no GUI packages, no secrets. Intentionally lean.
 
 - WSL2 with Ubuntu (or any other Linux distro)
 - Nix installed (single-user is enough). Recommended: [Determinate Systems installer](https://install.determinate.systems/)
-- Flakes enabled (default with the Determinate installer, otherwise add to `~/.config/nix/nix.conf`):
+- Flakes enabled. The Determinate installer enables them by default. With the official installer you need to opt in:
+  ```bash
+  mkdir -p ~/.config/nix
+  echo 'experimental-features = nix-command flakes' >> ~/.config/nix/nix.conf
   ```
-  experimental-features = nix-command flakes
-  ```
+  If you see `error: experimental Nix feature 'nix-command' is disabled`, this step was skipped.
 
 ## Installation
 
@@ -29,8 +31,11 @@ cd ~/dotfiles
 # If your WSL username is not 'mirimoc':
 # open flake.nix and adjust `username = "mirimoc"`
 
-# Activate
-nix run home-manager/master -- switch --flake .#wsl
+# Activate (uses the exact home-manager version pinned in flake.lock)
+nix run .#homeConfigurations.wsl.activationPackage
+
+# Subsequent switches (home-manager is now on PATH)
+# home-manager switch --flake .#wsl
 
 # Make zsh the default shell
 chsh -s $(which zsh)
@@ -51,6 +56,11 @@ On the first zsh launch, `p10k configure` will run — pick your preferred promp
 cd ~/dotfiles
 nix flake update
 home-manager switch --flake .#wsl
+```
+
+If you haven't activated yet (no `home-manager` on PATH), use the first-time command instead:
+```bash
+nix run .#homeConfigurations.wsl.activationPackage
 ```
 
 ## Uninstall

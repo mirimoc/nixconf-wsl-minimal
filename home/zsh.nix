@@ -51,6 +51,7 @@
       sv = "sudo -E nvim";
       ll = "ls -la";
       nf = "cd ~/dotfiles";
+      sw = "home-manager switch --flake ~/dotfiles#wsl";
       gb = "nix-collect-garbage -d";
     };
 

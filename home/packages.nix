@@ -7,7 +7,12 @@
 # Apply with: home-manager switch --flake .#wsl   (alias: sw)
 
 {
+  fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
+    # Fonts (Nerd Fonts). See docs/fonts.md for Windows Terminal setup.
+    nerd-fonts.monofur
+
     # Python
     # python3
     # poetry

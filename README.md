@@ -147,6 +147,7 @@ nixconf-wsl-minimal/
 ## Documentation
 
 - [docs/secrets.md](docs/secrets.md) — managing API tokens and credentials safely.
+- [docs/fonts.md](docs/fonts.md) — installing Nerd Fonts for Windows Terminal.
 
 ## Notes
 

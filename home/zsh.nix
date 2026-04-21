@@ -52,6 +52,7 @@
       ll = "ls -la";
       nf = "cd ~/projects/nixconf/";
       sw = "home-manager switch --flake .#wsl";
+      nd = "sudo nohup /nix/var/nix/profiles/default/bin/nix-daemon --daemon >/dev/null 2>&1 & disown";
       gb = "nix-collect-garbage -d";
     };
 
@@ -76,6 +77,15 @@
       # Load local secrets (not tracked in git, not in the Nix store).
       # See docs/secrets.md for setup.
       [ -f "$HOME/.config/secrets.env" ] && source "$HOME/.config/secrets.env"
+
+      # Auto-start nix-daemon on WSL without systemd. No-op if already running.
+      # Requires passwordless sudo for nix-daemon.
+      if [ -d /nix/store ] && stat -c '%G' /nix/store 2>/dev/null | grep -q nixbld; then
+        if ! pgrep -x nix-daemon >/dev/null 2>&1; then
+          sudo -n nohup /nix/var/nix/profiles/default/bin/nix-daemon --daemon \
+            >/dev/null 2>&1 & disown 2>/dev/null || true
+        fi
+      fi
     '';
   };
 }

@@ -63,6 +63,49 @@ If you haven't activated yet (no `home-manager` on PATH), use the first-time com
 nix run .#homeConfigurations.wsl.activationPackage
 ```
 
+## Troubleshooting
+
+### `error opening lock file ... Permission denied`
+
+Multi-user Nix was installed, but the `nix-daemon` isn't running. WSL doesn't run
+systemd by default, so the daemon never starts automatically.
+
+**Quick fix (per session):**
+```bash
+sudo /nix/var/nix/profiles/default/bin/nix-daemon --daemon &
+disown
+```
+
+Use the absolute path — `sudo`'s `secure_path` doesn't include the Nix profile bin.
+
+**Persistent fix (requires WSL admin):** enable systemd in WSL.
+
+In WSL:
+```bash
+sudo tee -a /etc/wsl.conf > /dev/null <<'EOF'
+
+[boot]
+systemd=true
+EOF
+```
+
+Then in **Windows PowerShell** (not WSL):
+```
+wsl --shutdown
+```
+
+Re-open WSL — the daemon now starts automatically.
+
+**No admin rights on Windows?** Auto-start the daemon per login by adding to `~/.zshenv` or `~/.bashrc`:
+```bash
+pgrep -x nix-daemon >/dev/null || sudo -n /nix/var/nix/profiles/default/bin/nix-daemon --daemon &>/dev/null &
+```
+(requires passwordless sudo for `nix-daemon`).
+
+### `error: experimental Nix feature 'nix-command' is disabled`
+
+See the [Prerequisites](#prerequisites) section — flakes need to be opted in with the official installer.
+
 ## Uninstall
 
 ```bash

@@ -10,9 +10,9 @@
     withRuby = false;
     withPython3 = false;
 
-    # WICHTIG: Keine plugins hier, LazyVim managed die!
+    # IMPORTANT: no plugins here, LazyVim manages them!
     extraPackages = with pkgs; [
-      # LSP Servers (minimal)
+      # LSP servers (minimal set)
       lua-language-server
       nil
       marksman
@@ -21,14 +21,14 @@
       stylua
       nixpkgs-fmt
 
-      # Essential Tools
+      # Essential tools
       ripgrep
       fd
       lazygit
     ];
   };
 
-  # LazyVim Config symlinken
+  # Symlink LazyVim config
   home.file.".config/nvim" = {
     source = ../dotfiles/nvim;
     recursive = true;

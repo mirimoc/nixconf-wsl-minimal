@@ -13,7 +13,7 @@
     enable = true;
     enableCompletion = true;
 
-    # Läuft in .zshenv — gilt auch für non-interactive shells
+    # Runs in .zshenv — also applies to non-interactive shells
     envExtra = ''
       export PATH="$HOME/.local/bin:$PATH"
     '';
@@ -59,15 +59,15 @@
     };
 
     initContent = ''
-      # P10K Konfiguration laden
+      # Load p10k config
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-      # Instant prompt aktivieren
+      # Enable instant prompt
       if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
         source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
       fi
 
-      # Powerlevel10k laden
+      # Load powerlevel10k
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
 
       export PATH="$HOME/.local/bin:$PATH"

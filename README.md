@@ -1,20 +1,20 @@
 # nixconf-wsl-minimal
 
-Minimales home-manager Flake für WSL2/Ubuntu. Enthält nur die wichtigsten CLI-Tools:
+Minimal home-manager flake for WSL2/Ubuntu. Contains only the essentials:
 
-- **zsh** mit Powerlevel10k, Autocomplete, Fast-Syntax-Highlighting
-- **tmux** mit Catppuccin-Theme und Resurrect
-- **neovim** mit [LazyVim](https://www.lazyvim.org/)-Config
+- **zsh** with Powerlevel10k, autocomplete, fast-syntax-highlighting
+- **tmux** with Catppuccin theme and resurrect
+- **neovim** with [LazyVim](https://www.lazyvim.org/) config
 - **direnv** + nix-direnv
 - **fd**, **bat**, **jq**
 
-Kein Desktop, keine GUI-Pakete, keine Secrets. Bewusst schlank gehalten.
+No desktop, no GUI packages, no secrets. Intentionally lean.
 
-## Voraussetzungen
+## Prerequisites
 
-- WSL2 mit Ubuntu (oder anderer Linux-Distro)
-- Nix installiert (Single-User reicht). Empfehlung: [Determinate Systems Installer](https://install.determinate.systems/)
-- Flakes aktiviert (beim Determinate-Installer default, sonst in `~/.config/nix/nix.conf`):
+- WSL2 with Ubuntu (or any other Linux distro)
+- Nix installed (single-user is enough). Recommended: [Determinate Systems installer](https://install.determinate.systems/)
+- Flakes enabled (default with the Determinate installer, otherwise add to `~/.config/nix/nix.conf`):
   ```
   experimental-features = nix-command flakes
   ```
@@ -22,30 +22,30 @@ Kein Desktop, keine GUI-Pakete, keine Secrets. Bewusst schlank gehalten.
 ## Installation
 
 ```bash
-# Repo klonen (kein GitHub-Login nötig, da public)
+# Clone (no GitHub auth needed, repo is public)
 git clone https://github.com/mirimoc/nixconf-wsl-minimal ~/dotfiles
 cd ~/dotfiles
 
-# Falls dein WSL-Username nicht 'mirimoc' ist:
-# flake.nix öffnen und `username = "mirimoc"` anpassen
+# If your WSL username is not 'mirimoc':
+# open flake.nix and adjust `username = "mirimoc"`
 
-# Aktivieren
+# Activate
 nix run home-manager/master -- switch --flake .#wsl
 
-# zsh als Default-Shell setzen
+# Make zsh the default shell
 chsh -s $(which zsh)
 ```
 
-Beim ersten Start von zsh läuft `p10k configure` automatisch durch — dort das gewünschte Prompt-Design auswählen.
+On the first zsh launch, `p10k configure` will run — pick your preferred prompt style there.
 
-## Anpassen
+## Customize
 
 - **Username**: `flake.nix` → `username = "..."`
-- **Pakete**: `home/development.nix` oder `home/nvim.nix` um `home.packages` / `extraPackages` ergänzen
-- **zsh-Aliase**: `home/zsh.nix` → `shellAliases`
-- **Eigene Module**: Neue Datei unter `home/`, in `home/wsl.nix` importieren
+- **Packages**: extend `home.packages` / `extraPackages` in `home/development.nix` or `home/nvim.nix`
+- **zsh aliases**: `home/zsh.nix` → `shellAliases`
+- **Your own modules**: create a new file under `home/`, import it in `home/wsl.nix`
 
-## Updaten
+## Update
 
 ```bash
 cd ~/dotfiles
@@ -53,31 +53,31 @@ nix flake update
 home-manager switch --flake .#wsl
 ```
 
-## Uninstallation
+## Uninstall
 
 ```bash
 home-manager generations
 home-manager remove-generations <ids...>
 ```
 
-## Struktur
+## Layout
 
 ```
 nixconf-wsl-minimal/
-├── flake.nix              # Inputs (nixpkgs, home-manager) + Output
+├── flake.nix              # inputs (nixpkgs, home-manager) + output
 ├── home/
-│   ├── wsl.nix            # Top-Level-Modul, importiert alle anderen
+│   ├── wsl.nix            # top-level module, imports the rest
 │   ├── base.nix           # stateVersion, EDITOR
-│   ├── zsh.nix            # zsh + p10k + Plugins + Aliase
-│   ├── tmux.nix           # tmux + Catppuccin + Resurrect
-│   ├── nvim.nix           # neovim + LSPs + Formatter
+│   ├── zsh.nix            # zsh + p10k + plugins + aliases
+│   ├── tmux.nix           # tmux + Catppuccin + resurrect
+│   ├── nvim.nix           # neovim + LSPs + formatters
 │   └── development.nix    # direnv + fd/bat/jq
 └── dotfiles/
-    └── nvim/              # LazyVim Lua-Config
+    └── nvim/              # LazyVim Lua config
 ```
 
-## Hinweise
+## Notes
 
-- **Git**: Nicht via Nix verwaltet. Entweder Ubuntu's `apt install git` nutzen oder eigenes Modul ergänzen.
-- **tmux-sessionizer**: Das tmux-Keybinding `prefix + C-f` erwartet `~/.local/bin/tmux-sessionizer`. Wenn nicht vorhanden, Keybinding ignorieren oder Skript installieren (z.B. von [ThePrimeagen](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer)).
-- **LazyVim**: Erste Neovim-Starts dauern länger, da Plugins geladen werden. `:Lazy` zeigt den Status.
+- **Git**: not managed by Nix here. Use Ubuntu's `apt install git` or add your own module.
+- **tmux-sessionizer**: the `prefix + C-f` keybinding expects `~/.local/bin/tmux-sessionizer`. If it's not installed, the keybinding is a no-op — or install a script like [ThePrimeagen's tmux-sessionizer](https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer).
+- **LazyVim**: the first few neovim launches take longer while plugins install. `:Lazy` shows progress.

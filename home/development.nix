@@ -7,7 +7,7 @@
     jq
   ];
 
-  # Direnv: Automatisches Aktivieren von Dev-Shells beim cd
+  # direnv: auto-activate dev shells on cd
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;

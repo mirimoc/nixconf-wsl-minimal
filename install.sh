@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installer for nixconf-wsl-minimal.
+# Installer for nixconf-minimal.
 # Handles flakes opt-in, nix-daemon startup, username patching, and activation.
 
 set -euo pipefail
@@ -52,7 +52,7 @@ fi
 # 5. Activate
 info "Running home-manager activation"
 cd "$SCRIPT_DIR"
-nix run .#homeConfigurations.wsl.activationPackage
+nix run .#homeConfigurations.home.activationPackage
 
 # 6. Offer to switch default shell to zsh
 if [[ "$(getent passwd "$CURRENT_USER" | cut -d: -f7)" != *zsh ]]; then

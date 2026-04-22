@@ -51,7 +51,7 @@
       sv = "sudo -E nvim";
       ll = "ls -la";
       nf = "cd ~/projects/nixconf/";
-      sw = "home-manager switch --flake .#wsl";
+      sw = "home-manager switch --flake .#home";
       nd = "sudo nohup /nix/var/nix/profiles/default/bin/nix-daemon --daemon >/dev/null 2>&1 & disown";
       gb = "nix-collect-garbage -d";
     };

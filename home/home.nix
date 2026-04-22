@@ -7,7 +7,8 @@
     ./tmux.nix
     ./nvim.nix
     ./development.nix
-    ./packages.nix
+    ./python.nix
+    ./extras.nix
   ];
 
   home.username = username;

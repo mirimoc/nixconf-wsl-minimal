@@ -32,7 +32,7 @@ In Windows:
 
 ## Adding more Nerd Fonts
 
-In `home/packages.nix`:
+In `home/extras.nix`:
 
 ```nix
 home.packages = with pkgs; [

@@ -1,5 +1,5 @@
 {
-  description = "Minimal WSL2/Ubuntu home-manager config (zsh, tmux, nvim, direnv).";
+  description = "Minimal home-manager config for Linux VMs (zsh, tmux, nvim, direnv). WSL-friendly.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -18,10 +18,10 @@
         config.allowUnfree = true;
       };
     in {
-      homeConfigurations.wsl = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.home = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { inherit username; };
-        modules = [ ./home/wsl.nix ];
+        modules = [ ./home/home.nix ];
       };
     };
 }

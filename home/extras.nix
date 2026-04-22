@@ -1,10 +1,12 @@
 { pkgs, ... }:
 
-# Project- / machine-specific packages.
-# Add anything that isn't part of the minimal baseline here.
+# Catch-all for ad-hoc packages — anything that doesn't belong in a
+# topic-specific module (python.nix, development.nix, nvim.nix, ...).
+# Add here when you quickly need something; promote to its own module
+# once it grows into a coherent feature set.
 # Search nixpkgs: https://search.nixos.org/packages
 #
-# Apply with: home-manager switch --flake .#wsl   (alias: sw)
+# Apply with: home-manager switch --flake .#home   (alias: sw)
 
 {
   fonts.fontconfig.enable = true;
@@ -13,19 +15,10 @@
     # Fonts (Nerd Fonts). See docs/fonts.md for Windows Terminal setup.
     nerd-fonts.monofur
 
-    # Python
-    # python3
-    # poetry
-    # uv
-
     # Node / JS
     # nodejs_22
     # bun
     # pnpm
-
-    # Go
-    # go
-    # gopls
 
     # Rust
     # rustup

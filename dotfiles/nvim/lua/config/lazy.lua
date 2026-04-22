@@ -1,10 +1,16 @@
+-- Load Nix-managed feature flags (written by optional home-manager modules
+-- like home/python.nix). Each flag file sets a vim.g.enable_<feature> switch
+-- that plugin specs under lua/plugins/ check before registering.
+-- pcall keeps startup safe when a module is not imported (file absent).
+pcall(require, "config.features-python")
+
 -- Configure lazy.nvim
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import any extras modules here
-    { import = "lazyvim.plugins.extras.lang.python" },
+    -- Language extras that are always on (no Nix-level toggle yet).
+    -- Feature-gated languages (e.g. Python) are imported from lua/plugins/.
     { import = "lazyvim.plugins.extras.lang.go" },
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.markdown" },

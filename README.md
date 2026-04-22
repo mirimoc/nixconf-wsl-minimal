@@ -1,4 +1,4 @@
-# nixconf-wsl-minimal
+# nixconf-minimal
 
 Minimal home-manager flake for WSL2/Ubuntu. Contains only the essentials:
 
@@ -26,8 +26,8 @@ No desktop, no GUI packages, no secrets. Intentionally lean.
 ### Scripted (recommended)
 
 ```bash
-git clone https://github.com/mirimoc/nixconf-wsl-minimal ~/dotfiles
-cd ~/dotfiles
+git clone https://github.com/mirimoc/nixconf-minimal ~/projects/nixconf
+cd ~/projects/nixconf
 ./install.sh
 ```
 
@@ -38,17 +38,17 @@ and offering `chsh -s $(which zsh)`.
 ### Manual
 
 ```bash
-git clone https://github.com/mirimoc/nixconf-wsl-minimal ~/dotfiles
-cd ~/dotfiles
+git clone https://github.com/mirimoc/nixconf-minimal ~/projects/nixconf
+cd ~/projects/nixconf
 
 # If your WSL username is not 'mirimoc':
 # open flake.nix and adjust `username = "mirimoc"`
 
 # Activate (uses the exact home-manager version pinned in flake.lock)
-nix run .#homeConfigurations.wsl.activationPackage
+nix run .#homeConfigurations.home.activationPackage
 
 # Subsequent switches (home-manager is now on PATH)
-# home-manager switch --flake .#wsl
+# home-manager switch --flake .#home
 
 # Make zsh the default shell
 chsh -s $(which zsh)
@@ -59,22 +59,23 @@ On the first zsh launch, `p10k configure` will run — pick your preferred promp
 ## Customize
 
 - **Username**: `flake.nix` → `username = "..."`
-- **Project-specific packages** (poetry, nodejs, terraform, …): add to `home/packages.nix`
+- **Ad-hoc packages** (nodejs, terraform, …): add to `home/extras.nix`
+- **Python toolchain** (python3, uv, ruff, basedpyright): managed by `home/python.nix`. Remove its import from `home/home.nix` to disable the whole feature (packages *and* LazyVim plugins).
 - **Baseline packages**: `home/development.nix` (CLI tools) or `home/nvim.nix` (neovim runtime deps)
 - **zsh aliases**: `home/zsh.nix` → `shellAliases`
-- **Your own modules**: create a new file under `home/`, import it in `home/wsl.nix`
+- **Your own modules**: create a new file under `home/`, import it in `home/home.nix`
 
 ## Update
 
 ```bash
-cd ~/dotfiles
+cd ~/projects/nixconf
 nix flake update
-home-manager switch --flake .#wsl
+home-manager switch --flake .#home
 ```
 
 If you haven't activated yet (no `home-manager` on PATH), use the first-time command instead:
 ```bash
-nix run .#homeConfigurations.wsl.activationPackage
+nix run .#homeConfigurations.home.activationPackage
 ```
 
 ## Troubleshooting
@@ -130,16 +131,17 @@ home-manager remove-generations <ids...>
 ## Layout
 
 ```
-nixconf-wsl-minimal/
+nixconf-minimal/
 ├── flake.nix              # inputs (nixpkgs, home-manager) + output
 ├── home/
-│   ├── wsl.nix            # top-level module, imports the rest
+│   ├── home.nix    # top-level module, imports the rest
 │   ├── base.nix           # stateVersion, EDITOR
 │   ├── zsh.nix            # zsh + p10k + plugins + aliases
 │   ├── tmux.nix           # tmux + Catppuccin + resurrect
 │   ├── nvim.nix           # neovim + LSPs + formatters
 │   ├── development.nix    # direnv + fd/bat/jq
-│   └── packages.nix       # your project-specific packages (poetry, nodejs, ...)
+│   ├── python.nix         # opt-in Python toolchain + LazyVim feature flag
+│   └── extras.nix         # catch-all for ad-hoc packages (nodejs, terraform, ...)
 └── dotfiles/
     └── nvim/              # LazyVim Lua config
 ```
